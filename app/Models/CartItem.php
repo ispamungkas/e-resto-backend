@@ -9,7 +9,7 @@ use App\Models\Cart;
 class CartItem extends Model
 {
    
-    protected $fillable = [
+    protected $fillable  = [
         'cart_id', 'productable_id', 'productable_type',
         'quantity', 'price'
     ];

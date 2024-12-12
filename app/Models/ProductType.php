@@ -12,7 +12,6 @@ class ProductType extends Model
 
     protected $fillable = [
         'name',
-        'photo',
     ];
 
     public function products() {

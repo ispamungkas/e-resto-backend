@@ -11,7 +11,9 @@ use App\Helpers\ResponseFormatter;
 class ProductController extends Controller
 {
     public function all(Request $request) {
-        
+        $data = Product::all();
+
+        return ResponseFormatter::success($data, 'Successfully Fetched');
     }
 
     public function add(Request $request) {

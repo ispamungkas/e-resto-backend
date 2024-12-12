@@ -8,6 +8,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Middleware\CheckAuthorizationHeader;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 
 Route::post('/register', [AccountController::class, 'register']);
 Route::post('/login', [AccountController::class, 'login']);
+Route::post('/checkout/update', [CheckoutController::class, 'handleNotification']);
 
 Route::middleware(['check'])->group(function() {
     /**
@@ -41,13 +43,20 @@ Route::middleware(['check'])->group(function() {
     Route::post('/paymentmethod/add', [PaymentmethodController::class, 'store']);
 
     /**
-     * Cart routing
+     * Cart Routing
      */
 
-    Route::get('/cart', [CartItemController::class, 'all']);
+    Route::get('/cart', [CartController::class, 'all']);
     Route::post('/cart/add/{userId}', [CartItemController::class, 'addItemToCart']);
-    Route::update('/cart/update/{userId}', [CartItemController::class, 'updateItemOnCart']);
-    
+    Route::put('/cart/update/{userId}', [CartItemController::class, 'updateItemOnCart']);
+
+    /**
+     * Checkout Routing
+     */
+    Route::get('/checkout', [CheckoutController::class, 'all']);
+    Route::post('/checkout/{cartId}', [CheckoutController::class, 'checkout']);
+   
+
 });
 
 Route::get('/user', function (Request $request) {

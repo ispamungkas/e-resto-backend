@@ -17,29 +17,30 @@ class CartItemController extends Controller
         try {
             
             $validator = Validator::make($request->all(), [
-                'quantity' => 'required|integer'
+                'quantity' => 'required|integer',
+                'product_id' => 'required|integer'
             ]);
 
             if($validator->fails()) {
                 return ResponseFormatter::erorr(null, 'Input Error', 300);
             }
 
-            $cart = Cart::firstOrCreate(['user_id', $userId]);
+            $cart = Cart::firstOrCreate(['user_id' => $userId]);
 
-            $product = Product::find($userId);
+            $product = Product::find($request->product_id);
 
-            $cart->items->create([
+            $result = CartItem::create([
                 'cart_id' => $cart->id,
                 'productable_id' => $product->id,
-                'productable_type' => Product::class,
-                'quantity' => $request->quantity,
+                'productable_type' => (string) Product::class,
+                'quantity' => (int) $request->quantity,
                 'price' => $product->price
             ]);
 
-            return ResponseFormatter::success(null, "Success added To Cart");
+            return ResponseFormatter::success($result, "Success added To Cart");
 
         } catch (Exception $exception) {
-            return ResponseFormatter::error(null, $exception->get_message());
+            return ResponseFormatter::error(null, $exception->getMessage());
         }
     }
 

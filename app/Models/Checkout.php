@@ -12,7 +12,6 @@ class Checkout extends Model
     use SaftDeletes;
 
     protected $fillable = [
-        'payment_id',
         'account_id',
         'status',
         'total_price_payment',
