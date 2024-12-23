@@ -9,12 +9,13 @@ use App\Models\Account;
 
 class Checkout extends Model
 {
-    use SaftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'account_id',
         'status',
-        'total_price_payment',
+        'total_price',
+        'order_id',
         'cart_id',
         'payment_price',
         'checkoutable_id',

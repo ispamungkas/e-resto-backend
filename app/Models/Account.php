@@ -27,4 +27,8 @@ class Account extends Authenticatable
     protected $hidden = [
         'password'
     ];
+    
+    public function carts() {
+        return $this->hasOne(Cart::class, 'user_id');
+    }
 }

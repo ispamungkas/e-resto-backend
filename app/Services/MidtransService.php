@@ -12,8 +12,9 @@ class MidtransService
     {
         Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
+        Config::$isSanitized = env('MIDTRANS_SANITIZE', true);
+        Config::$is3ds = env('MIDTRANS_3DS', true);
     }
 
     public function createTransaction(array $params)

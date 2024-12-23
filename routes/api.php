@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Middleware\CheckAuthorizationHeader;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 Route::post('/register', [AccountController::class, 'register']);
 Route::post('/login', [AccountController::class, 'login']);
 Route::post('/checkout/update', [CheckoutController::class, 'handleNotification']);
+Route::post('/checkout/handleNotification', [CheckoutController::class, 'handleNotification']);
 
 Route::middleware(['check'])->group(function() {
     /**
@@ -25,6 +27,8 @@ Route::middleware(['check'])->group(function() {
      */
     Route::get('/product', [ProductController::class, 'all']);
     Route::post('/product/add', [ProductController::class, 'add']);
+    Route::post('/product/delete', [ProductController::class, 'deleteProduct']);
+    Route::post('/product/update', [ProductController::class, 'updateProduct']);
 
 
     /**
@@ -47,15 +51,23 @@ Route::middleware(['check'])->group(function() {
      */
 
     Route::get('/cart', [CartController::class, 'all']);
+    Route::post('/cart/delete', [CartController::class, 'delete']);
+    Route::post('/cart/item/delete', [CartItemController::class, 'deleteProductFromCart']);
     Route::post('/cart/add/{userId}', [CartItemController::class, 'addItemToCart']);
     Route::put('/cart/update/{userId}', [CartItemController::class, 'updateItemOnCart']);
 
     /**
      * Checkout Routing
      */
+    Route::get('/checkout/all', [CheckoutController::class, 'allCheckout']);
     Route::get('/checkout', [CheckoutController::class, 'all']);
+    Route::get('/checkout/item', [CheckoutController::class, 'checkoutById']);
     Route::post('/checkout/{cartId}', [CheckoutController::class, 'checkout']);
-   
+    Route::post('/checkout/repay/{cartId}', [CheckoutController::class, 'repayCheckout']);
+    Route::post('/update/status', [CheckoutController::class, 'updateStatus']);
+    Route::get('/payment/finish');
+    Route::get('/payment/unfinish');
+    Route::get('/payment/error');
 
 });
 
