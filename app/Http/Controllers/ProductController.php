@@ -28,7 +28,7 @@ class ProductController extends Controller
             ]);
 
             if ($validate->fails()) {
-                return ResponseFormatter::error(null, "Input Error" , 300);
+                return ResponseFormatter::error($validate->messages()->get('*'), "Input Error" , 300);
             }
             
             // Generate code product
